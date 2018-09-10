@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Fields</title>
+    <h:outputStylesheet name="bootstrap/css/bootstrap.css"/>
+    <h:outputStylesheet name="bootstrap/css/bootstrap-grid.css"/>
+    <h:outputScript name="/js/jquery-3.3.1.min.js"/>
+</h:head>
+<h:body>
+
+    <ui:include src="header.xhtml"/>
+
+    <h:form>
+        <h:commandButton value="+ Add Field" action="/createField" styleClass="btn btn-secondary "/>
+    </h:form>
+
+
+    <h:form id="form1">
+        <h:dataTable value="#{fieldService.fieldList}" var="field" border="2"
+                     cellspacing="1" cellpadding="1" styleClass="table">
+            <h:column>
+                <c:facet name="header">Label</c:facet>
+                #{field.label}
+            </h:column>
+            <h:column>
+                <c:facet name="header">Type</c:facet>
+                #{field.type.name}
+            </h:column>
+
+            <h:column>
+                <c:facet name="header">Required</c:facet>
+                #{field.required}
+            </h:column>
+            <h:column>
+                <c:facet name="header">Is Active</c:facet>
+                #{field.active}
+            </h:column>
+            <h:column>
+                <c:facet name="header"></c:facet>
+                <h:commandLink value="edit" action="/editField">
+                    <f:setPropertyActionListener target="#{newField}" value="#{field}"/>
+                </h:commandLink>
+            </h:column>
+            <h:column>
+                <c:facet name="header"></c:facet>
+                <h:commandLink immediate="true" rendered="true" action="#{fieldService.deleteFieldById(field.id)}"
+                               value="delete">
+                </h:commandLink>
+            </h:column>
+
+        </h:dataTable>
+
+    </h:form>
+</h:body>
+</html>
